@@ -1,24 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
+import LoginRegisterPage from './pages/LoginRegisterPage';
+import Users from './pages/Users';
+import Sidebar from './components/Sidebar';
+import Teams from './pages/Teams';
 
 function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false); // Track if user is authenticated
+
+  // Check authentication status when the app mounts
+  useEffect(() => {
+    const token = localStorage.getItem('authToken');
+    setIsAuthenticated(!!token); // If there's a token, the user is authenticated
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className="flex">
+        {/* Sidebar is visible only if the user is authenticated */}
+        {isAuthenticated && <Sidebar setIsAuthenticated={setIsAuthenticated} />}
+
+        <div className="flex-grow">
+          <Routes>
+            <Route path="/" element={<LoginRegisterPage setIsAuthenticated={setIsAuthenticated} />} />
+            <Route path="/users" element={<Users />} />
+            <Route path="/teams" element={<Teams />} />
+            <Route path="/projects" element={<h1>Projects Page</h1>} />
+          </Routes>
+        </div>
+      </div>
+    </Router>
   );
 }
 
