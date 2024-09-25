@@ -65,7 +65,7 @@ export const deleteTeam = async (teamId) => {
 // Add a member to a team
 export const addTeamMember = async (teamId, userId) => {
   try {
-    const response = await api.post("/teams/member", { team_id: teamId, user_id: userId });
+    const response = await api.post("/teams/member", { team_id: teamId, user_id: userId, role: "member" });
     console.log("Team member added successfully:", response.data);
     return response.data;
   } catch (error) {
@@ -87,7 +87,7 @@ export const removeTeamMember = async (teamId, userId) => {
 // Add a lead to a team
 export const addTeamLead = async (teamId, userId) => {
   try {
-    const response = await api.post("/teams/lead", { team_id: teamId, user_id: userId });
+    const response = await api.post("/teams/member", { team_id: teamId, user_id: userId, role: "lead" });
     console.log("Team lead added successfully:", response.data);
     return response.data;
   } catch (error) {

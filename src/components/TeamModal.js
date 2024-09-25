@@ -46,7 +46,7 @@ const TeamModal = ({
   useEffect(() => {
     if (team) {
       setFormState({
-        id: team.team_id || "",
+        id: team.id || "",
         name: team.name || "",
         description: team.description || "",
       });

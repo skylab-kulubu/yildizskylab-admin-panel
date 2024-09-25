@@ -163,7 +163,7 @@ const Teams = () => {
       <div className="flex flex-wrap mt-4">
         {teams.map((team) => (
           <div
-            key={team.team_id}
+            key={team.id}
             className="bg-[#1a1a1a] shadow-[0_0_15px_10px_rgba(234,218,255,0.5)] p-6 m-4 w-64 rounded-lg cursor-pointer"
             onClick={() => openModal(team)}
           >
