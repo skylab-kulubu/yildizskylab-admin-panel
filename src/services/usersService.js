@@ -1,5 +1,4 @@
 import api from '../api/api';
-import { User } from '../types/userTypes';
 
 // Kullanıcıları listeleme servisi
 export const fetchUsers = async (pageId = 1, pageSize = 10) => {

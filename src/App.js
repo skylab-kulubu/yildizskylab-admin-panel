@@ -4,6 +4,12 @@ import LoginRegisterPage from './pages/LoginRegisterPage';
 import Users from './pages/Users';
 import Sidebar from './components/Sidebar';
 import Teams from './pages/Teams';
+import TeamMembers from './pages/TeamMembers';
+import TeamLeads from './pages/TeamLeads';
+import TeamProjects from './pages/TeamProjects';
+import Projects from './pages/Projects';
+import ProjectMembers from './pages/ProjectMembers';
+
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false); // Track if user is authenticated
@@ -16,20 +22,23 @@ function App() {
 
   return (
     <Router>
-      <div className="flex">
-        {/* Sidebar is visible only if the user is authenticated */}
-        {isAuthenticated && <Sidebar setIsAuthenticated={setIsAuthenticated} />}
+  <div className="flex">
+    {isAuthenticated && <Sidebar setIsAuthenticated={setIsAuthenticated} />}
+    <div className="flex-grow">
+      <Routes>
+        <Route path="/" element={<LoginRegisterPage setIsAuthenticated={setIsAuthenticated} />} />
+        <Route path="/users" element={<Users />} />
+        <Route path="/teams" element={<Teams />} />
+        <Route path="/teams/members" element={<TeamMembers />} />
+        <Route path="/teams/leads" element={<TeamLeads />} />
+        <Route path="/teams/projects" element={<TeamProjects />} />
+        <Route path="/projects" element={<Projects />} />
+        <Route path="/projects/members" element={<ProjectMembers />} />
+      </Routes>
+    </div>
+  </div>
+</Router>
 
-        <div className="flex-grow">
-          <Routes>
-            <Route path="/" element={<LoginRegisterPage setIsAuthenticated={setIsAuthenticated} />} />
-            <Route path="/users" element={<Users />} />
-            <Route path="/teams" element={<Teams />} />
-            <Route path="/projects" element={<h1>Projects Page</h1>} />
-          </Routes>
-        </div>
-      </div>
-    </Router>
   );
 }
 

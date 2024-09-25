@@ -1,6 +1,6 @@
 import api from "../api/api";
 
-// Fetch teams
+// Fetch teams with optional pagination
 export const fetchTeams = async (pageId = 1, pageSize = 10) => {
   try {
     const response = await api.get(
@@ -9,6 +9,16 @@ export const fetchTeams = async (pageId = 1, pageSize = 10) => {
     return response.data;
   } catch (error) {
     throw new Error("Takımlar getirilemedi: " + error.message);
+  }
+};
+
+// Fetch a specific team by ID (including members)
+export const fetchTeamById = async (teamId) => {
+  try {
+    const response = await api.get(`/teams/${teamId}`);
+    return response.data; // Bu verinin üyeleri içerdiğinden emin olun.
+  } catch (error) {
+    throw new Error("Takım getirilemedi: " + error.message);
   }
 };
 
@@ -65,7 +75,11 @@ export const deleteTeam = async (teamId) => {
 // Add a member to a team
 export const addTeamMember = async (teamId, userId) => {
   try {
-    const response = await api.post("/teams/member", { team_id: teamId, user_id: userId, role: "member" });
+    const response = await api.post("/teams/member", { 
+      team_id: teamId, 
+      user_id: userId, 
+      role: "member" 
+    });
     console.log("Team member added successfully:", response.data);
     return response.data;
   } catch (error) {
@@ -76,7 +90,9 @@ export const addTeamMember = async (teamId, userId) => {
 // Remove a member from a team
 export const removeTeamMember = async (teamId, userId) => {
   try {
-    const response = await api.delete("/teams/member", { data: { team_id: teamId, user_id: userId } });
+    const response = await api.delete("/teams/member", { 
+      data: { team_id: teamId, user_id: userId } 
+    });
     console.log("Team member removed successfully:", response.data);
     return response.data;
   } catch (error) {
@@ -87,7 +103,11 @@ export const removeTeamMember = async (teamId, userId) => {
 // Add a lead to a team
 export const addTeamLead = async (teamId, userId) => {
   try {
-    const response = await api.post("/teams/member", { team_id: teamId, user_id: userId, role: "lead" });
+    const response = await api.post("/teams/member", { 
+      team_id: teamId, 
+      user_id: userId, 
+      role: "lead" 
+    });
     console.log("Team lead added successfully:", response.data);
     return response.data;
   } catch (error) {
@@ -98,7 +118,9 @@ export const addTeamLead = async (teamId, userId) => {
 // Remove a lead from a team
 export const removeTeamLead = async (teamId, userId) => {
   try {
-    const response = await api.delete("/teams/lead", { data: { team_id: teamId, user_id: userId } });
+    const response = await api.delete("/teams/lead", { 
+      data: { team_id: teamId, user_id: userId } 
+    });
     console.log("Team lead removed successfully:", response.data);
     return response.data;
   } catch (error) {
@@ -109,7 +131,10 @@ export const removeTeamLead = async (teamId, userId) => {
 // Add a project to a team
 export const addTeamProject = async (teamId, projectId) => {
   try {
-    const response = await api.post("/teams/project", { team_id: teamId, project_id: projectId });
+    const response = await api.post("/teams/project", { 
+      team_id: teamId, 
+      project_id: projectId 
+    });
     console.log("Team project added successfully:", response.data);
     return response.data;
   } catch (error) {
@@ -120,10 +145,32 @@ export const addTeamProject = async (teamId, projectId) => {
 // Remove a project from a team
 export const removeTeamProject = async (teamId, projectId) => {
   try {
-    const response = await api.delete("/teams/project", { data: { team_id: teamId, project_id: projectId } });
+    const response = await api.delete("/teams/project", { 
+      data: { team_id: teamId, project_id: projectId } 
+    });
     console.log("Team project removed successfully:", response.data);
     return response.data;
   } catch (error) {
     throw new Error("Proje çıkarılamadı: " + error.message);
+  }
+};
+
+// Fetch all users
+export const fetchAllUsers = async () => {
+  try {
+    const response = await api.get("/users");
+    return response.data;
+  } catch (error) {
+    throw new Error("Kullanıcılar getirilemedi: " + error.message);
+  }
+};
+
+// Fetch a specific user by ID
+export const fetchUserById = async (userId) => {
+  try {
+    const response = await api.get(`/users/${userId}`);
+    return response.data;
+  } catch (error) {
+    throw new Error("Kullanıcı getirilemedi: " + error.message);
   }
 };
