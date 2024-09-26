@@ -9,6 +9,7 @@ import TeamLeads from './pages/TeamLeads';
 import TeamProjects from './pages/TeamProjects';
 import Projects from './pages/Projects';
 import ProjectMembers from './pages/ProjectMembers';
+import NewsEditor from './pages/NewsEditor';
 
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
         <Route path="/teams/projects" element={<TeamProjects />} />
         <Route path="/projects" element={<Projects />} />
         <Route path="/projects/members" element={<ProjectMembers />} />
+        <Route path="/newseditor" element={<NewsEditor/>} />
       </Routes>
     </div>
   </div>

@@ -4,7 +4,7 @@ import api from '../api/api';
 export const fetchUsers = async (pageId = 1, pageSize = 10) => {
   try {
     const response = await api.get(`/users?page_id=${pageId}&page_size=${pageSize}`);
-    return response.data; // API'den dönen veriyi geri döndürüyoruz
+    return response.data.data; // API'den dönen veriyi geri döndürüyoruz
   } catch (error) {
     throw new Error('Kullanıcılar getirilemedi: ' + error.message);
   }

@@ -6,7 +6,7 @@ export const fetchTeams = async (pageId = 1, pageSize = 10) => {
     const response = await api.get(
       `/teams?page_id=${pageId}&page_size=${pageSize}`
     );
-    return response.data;
+    return response.data.data;
   } catch (error) {
     throw new Error("Takımlar getirilemedi: " + error.message);
   }
