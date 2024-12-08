@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { fetchUsers } from '../services/usersService';
-import UserModal from '../components/UserModal'; // Custom modal
+import React, { useState, useEffect } from "react";
+import { fetchUsers } from "../services/usersService";
+import UserModal from "../components/UserModal"; // Custom modal
 
 const Users = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [currentUserId, setCurrentUserId] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
   const [isEditMode, setIsEditMode] = useState(false);
 
@@ -16,10 +15,11 @@ const Users = () => {
     const getUsers = async () => {
       try {
         const usersData = await fetchUsers();
-        setUsers(usersData.data || []);
+        setUsers(usersData || []);
+        console.log(usersData);
       } catch (err) {
-        console.error('Error fetching users:', err);
-        setError('Kullanıcılar alınamadı.');
+        console.error("Error fetching users:", err);
+        setError("Kullanıcılar alınamadı.");
       } finally {
         setLoading(false);
       }
@@ -52,7 +52,7 @@ const Users = () => {
       // await updateUser(currentUser);
       closeModal();
     } catch (err) {
-      console.error('Error updating user:', err);
+      console.error("Error updating user:", err);
     }
   };
 
@@ -63,7 +63,7 @@ const Users = () => {
       // await deleteUser(userId);
       closeModal();
     } catch (err) {
-      console.error('Error deleting user:', err);
+      console.error("Error deleting user:", err);
     }
   };
 
@@ -76,15 +76,17 @@ const Users = () => {
   }
 
   return (
-    <div className="p-8">
-      <h1 className="text-2xl font-bold text-[#eadaff] text-center">Kullanıcılar</h1>
-      <div className="flex flex-wrap mt-4">
+    <div className="flex flex-col p-8 gap-10 items-center">
+      <h1 className="text-2xl font-bold text-[#eadaff] text-center">
+        Kullanıcılar
+      </h1>
+      <div className="flex items-center justify-center flex-wrap gap-10 w-4/5">
         {users.map((user) => (
           <div
-          key={user.id}
-          className="bg-[#1a1a1a] shadow-[0_0_15px_10px_rgba(234,218,255,0.5)] p-6 m-8 w-64 rounded-lg cursor-pointer transition duration-300 hover:shadow-[0_0_15px_10px_rgba(234,218,255,0.8)]"
-          onClick={() => openModal(user)}
-        >
+            key={user.id}
+            className="p-6 bg-[#1a1a1a] shadow-[0_0_15px_10px_rgba(234,218,255,0.5)] hover:shadow-[0_0_15px_10px_rgba(234,218,255,0.8)] rounded-lg cursor-pointer transition duration-300"
+            onClick={() => openModal(user)}
+          >
             <h2 className="text-lg font-bold text-white">{user.name}</h2>
             <p className="text-gray-300">{user.email}</p>
           </div>

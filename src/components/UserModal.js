@@ -1,6 +1,6 @@
-import React from 'react';
-import { FaTimes, FaTrash, FaEdit, FaSave } from 'react-icons/fa'; // Importing icons from Font Awesome
-import { updateUser, deleteUser } from '../services/usersService'; // Importing the services
+import React, { useRef } from "react";
+import { FaTimes, FaTrash, FaEdit, FaSave } from "react-icons/fa"; // Importing icons from Font Awesome
+import { updateUser, deleteUser } from "../services/usersService"; // Importing the services
 
 const UserModal = ({
   isOpen,
@@ -8,42 +8,74 @@ const UserModal = ({
   user,
   isEditMode,
   setIsEditMode,
-  handleInputChange,
-  refreshUsersList // Function to refresh users after update/delete
+  refreshUsersList, // Function to refresh users after update/delete
 }) => {
+  const nameRef = useRef(user.name);
+  const lastNameRef = useRef(user.last_name);
+  const emailRef = useRef(user.email);
+  const phoneRef = useRef(user.telephone_number);
+  const universityRef = useRef(user.university);
+  const departmentRef = useRef(user.department);
+  const birthRef = useRef(user.date_of_birth);
+  const roleRef = useRef(user.role);
+
   if (!isOpen) return null; // Do not render if modal is not open
 
   // Handle Update User
   const handleUpdateUser = async () => {
+    console.log(user);
+    const newUser = {
+      id: user.id,
+      name: nameRef.current.value,
+      last_name: lastNameRef.current.value,
+      email: emailRef.current.value,
+      telephone_number: phoneRef.current.value,
+      university: universityRef.current.value,
+      department: departmentRef.current.value,
+      date_of_birth: "2000-01-01T00:00:00.000Z",
+      role: roleRef.current.value,
+    };
+    console.log(newUser);
     try {
-      await updateUser(user); // Call the updateUser service
+      await updateUser(newUser); // Call the updateUser service
       refreshUsersList(); // Refresh the users list after update
       closeModal(); // Close the modal after update
     } catch (error) {
-      console.error('Error updating user:', error.message);
+      console.error("Error updating user:", error.message);
     }
   };
 
   // Handle Delete User
-  const handleDeleteUser = async (userId) => {
+  const handleDeleteUser = async () => {
     try {
-      await deleteUser(userId); // Call the deleteUser service
+      await deleteUser(user.id); // Call the deleteUser service
       refreshUsersList(); // Refresh the users list after delete
       closeModal(); // Close the modal after delete
     } catch (error) {
-      console.error('Error deleting user:', error.message);
+      console.error("Error deleting user:", error.message);
     }
   };
 
   return (
     // Modal Overlay
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50" onClick={closeModal}>
+    <div
+      className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
+      onClick={closeModal}
+    >
       {/* Modal Content */}
-      <div className="bg-[#1a1a1a] text-[#EADAFF] rounded-lg shadow-lg w-full max-w-lg p-6" onClick={(e) => e.stopPropagation()}>
+      <div
+        className="bg-[#1a1a1a] text-[#EADAFF] rounded-lg shadow-lg w-full max-w-lg p-6"
+        onClick={(e) => e.stopPropagation()}
+      >
         {/* Modal Header */}
         <div className="flex justify-between items-center border-b border-gray-700 pb-2">
-          <h2 className="text-xl font-semibold">{isEditMode ? 'Kullanıcıyı Düzenle' : 'Kullanıcı Detayları'}</h2>
-          <button className="text-[#EADAFF] hover:text-gray-100" onClick={closeModal}>
+          <h2 className="text-xl font-semibold">
+            {isEditMode ? "Kullanıcıyı Düzenle" : "Kullanıcı Detayları"}
+          </h2>
+          <button
+            className="text-[#EADAFF] hover:text-gray-100"
+            onClick={closeModal}
+          >
             <FaTimes size={20} />
           </button>
         </div>
@@ -55,8 +87,8 @@ const UserModal = ({
             <input
               type="text"
               name="name"
-              value={user.name || ''}
-              onChange={handleInputChange}
+              ref={nameRef}
+              defaultValue={user.name}
               className="mt-1 w-full p-2 rounded-md bg-gray-800 text-[#EADAFF] border border-gray-700"
             />
           ) : (
@@ -70,8 +102,8 @@ const UserModal = ({
             <input
               type="text"
               name="last_name"
-              value={user.last_name || ''}
-              onChange={handleInputChange}
+              ref={lastNameRef}
+              defaultValue={user.last_name}
               className="mt-1 w-full p-2 rounded-md bg-gray-800 text-[#EADAFF] border border-gray-700"
             />
           ) : (
@@ -85,8 +117,8 @@ const UserModal = ({
             <input
               type="email"
               name="email"
-              value={user.email || ''}
-              onChange={handleInputChange}
+              ref={emailRef}
+              defaultValue={user.email}
               className="mt-1 w-full p-2 rounded-md bg-gray-800 text-[#EADAFF] border border-gray-700"
             />
           ) : (
@@ -100,8 +132,8 @@ const UserModal = ({
             <input
               type="text"
               name="telephone_number"
-              value={user.telephone_number || ''}
-              onChange={handleInputChange}
+              ref={phoneRef}
+              defaultValue={user.telephone_number}
               className="mt-1 w-full p-2 rounded-md bg-gray-800 text-[#EADAFF] border border-gray-700"
             />
           ) : (
@@ -115,8 +147,8 @@ const UserModal = ({
             <input
               type="text"
               name="university"
-              value={user.university || ''}
-              onChange={handleInputChange}
+              ref={universityRef}
+              defaultValue={user.university}
               className="mt-1 w-full p-2 rounded-md bg-gray-800 text-[#EADAFF] border border-gray-700"
             />
           ) : (
@@ -130,8 +162,8 @@ const UserModal = ({
             <input
               type="text"
               name="department"
-              value={user.department || ''}
-              onChange={handleInputChange}
+              ref={departmentRef}
+              defaultValue={user.department}
               className="mt-1 w-full p-2 rounded-md bg-gray-800 text-[#EADAFF] border border-gray-700"
             />
           ) : (
@@ -145,8 +177,8 @@ const UserModal = ({
             <input
               type="datetime-local"
               name="date_of_birth"
-              value={user.date_of_birth || ''}
-              onChange={handleInputChange}
+              ref={birthRef}
+              defaultValue={user.date_of_birth}
               className="mt-1 w-full p-2 rounded-md bg-gray-800 text-[#EADAFF] border border-gray-700"
             />
           ) : (
@@ -160,8 +192,8 @@ const UserModal = ({
             <input
               type="text"
               name="role"
-              value={user.role || ''}
-              onChange={handleInputChange}
+              ref={roleRef}
+              defaultValue={user.role}
               className="mt-1 w-full p-2 rounded-md bg-gray-800 text-[#EADAFF] border border-gray-700"
             />
           ) : (
@@ -188,7 +220,7 @@ const UserModal = ({
             </button>
           )}
           <button
-            onClick={() => handleDeleteUser(user.id)}
+            onClick={handleDeleteUser}
             className="bg-red-500 hover:bg-red-600 text-[#EADAFF] py-2 px-4 rounded-lg flex items-center"
           >
             <FaTrash className="mr-2" /> Sil
